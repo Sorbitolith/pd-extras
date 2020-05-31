@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#check if user is root
+if [ `whoami` != root ]; then
+    echo="Keine Berechtigung! Bitte \" sudo \" im crontab hinterlegen" >> /home/pi/ONBOOT_WARNUNG.log 
+    exit 1
+fi
+
+
 #set date
 LOGDATE=$(date "+%d-%m-%y--%T")
 

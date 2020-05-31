@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#set date
+LOGDATE=$(date "+%d-%m-%y--%T")
+
+
+if [ !  -d /home/pi/pd-logfiles ]; then
+        sudo -u pi mkdir /home/pi/pd-logfiles
+        DIR_WARN="( tput setaf 1 )Warnung! $( tput init ) pd-logfiles fehlt - $(tput init)wurde erstellt!)"
+else
+        DIR_WARN="pd-logfiles vorhanden"
+fi
+
+
+#Variable für die Updatekontrolle (4 => kein Upgrade)
+#####################################################
+control=$(apt-get -u upgrade --assume-no | grep -o 0 | wc -l)
+
+if  [ "$control" != 4 ] 
+then
+        UP_WARN=$(apt-get update && apt-get dist-upgrade -yf && apt-get autoremove -y && apt-get autoclean -y)
+
+else
+        UP_WARN="keine Upgrades nötig!"
+fi
+echo    "$LOGDATE
+$DIR_WARN
+$UP_WARN" >> /home/pi/pd-logfiles/pd-onboot.log

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#set date
+#########
+LOGDATE=`date '+%d-%m-%y--%T'
+
+PD_DIR=/home/pi/logfiles
+if [ ! -d "$PD_DIR" ]; then
+    mkdir logiles
+fi
+echo "Reboot at $LOGDATE" >> /home/pi/logfiles/pd-reboot.log
+reboot
